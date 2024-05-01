@@ -1,9 +1,7 @@
 Hello there.
 
+```j
 
-<script src="http://code.jquery.com/jquery-1.4.2.min.js">
-</script>
-<script>
 //Screen Saver App | October 7 2022 | Luca DalCanto
 let xpos, ypos;
 let strokeW;
@@ -73,4 +71,5 @@ function moveDown(startX, startY, moveCount) {
     }
 }
 
-</script>
+
+```
