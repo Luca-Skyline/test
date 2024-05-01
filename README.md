@@ -1,3 +1,3 @@
 Hello there.
 
-[click](game.html)
+[click](test_game/index.html)
