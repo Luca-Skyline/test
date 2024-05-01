@@ -2,7 +2,7 @@ Hello there.
 
 <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
 <script>
-  //Screen Saver App | October 7 2022 | Luca DalCanto
+//Screen Saver App | October 7 2022 | Luca DalCanto
 let xpos, ypos;
 let strokeW;
 let pointCount;
