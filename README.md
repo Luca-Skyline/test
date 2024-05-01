@@ -1,3 +1,9 @@
 Hello there.
 
-<script src="sketch.js"\></script\>
+<script>
+// Your JavaScript code here
+function greet() {
+    console.log("Hello, world!");
+}
+greet();
+</script>
