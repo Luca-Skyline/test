@@ -1,74 +1,8 @@
 Hello there.
 
+
 <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+
 <script>
-//Screen Saver App | October 7 2022 | Luca DalCanto
-let xpos, ypos;
-let strokeW;
-let pointCount;
-function setup() {
-    createCanvas(500, 500);
-    background(24, 0, 24);
-    xpos = random(width);
-    ypos = random(height);
-}
-function draw() {
-    noStroke();
-    fill(14, 5);
-    rect(0, 0, width, height);
-    strokeW = random(3, 9);
-    pointCount = random(90, 190);
-    stroke(random(50, 255), random(10), random(80));
-    if (xpos > width || xpos < 0 || ypos > height || ypos < 0) {
-        xpos = random(width);
-        ypos = random(height);
-    }
-    switch (int(random(4))) {
-        case 0:
-            strokeWeight(strokeW);
-            moveLeft(xpos, ypos, pointCount);
-            break;
-        case 1:
-            strokeWeight(strokeW);
-            moveUp(xpos, ypos, pointCount);
-            break;
-        case 2:
-            strokeWeight(strokeW);
-            moveDown(xpos, ypos, pointCount);
-            break;
-        default:
-            strokeWeight(strokeW);
-            moveRight(xpos, ypos, pointCount);
-            break;
-    }
-}
-function moveRight(startX, startY, moveCount) {
-    for (let i = 0; i < moveCount; i++) {
-        point(startX + i, startY);
-        xpos = startX + i;
-        ypos = startY;
-    }
-}
-function moveLeft(startX, startY, moveCount) {
-    for (let i = 0; i < moveCount; i++) {
-        point(startX - i, startY);
-        xpos = startX - i;
-        ypos = startY;
-    }
-}
-function moveUp(startX, startY, moveCount) {
-    for (let i = 0; i < moveCount; i++) {
-        point(startX, startY - i);
-        xpos = startX;
-        ypos = startY - i;
-    }
-}
-function moveDown(startX, startY, moveCount) {
-    for (let i = 0; i < moveCount; i++) {
-        point(startX, startY + i);
-        xpos = startX;
-        ypos = startY + i;
-    }
-}
 
 </script>
