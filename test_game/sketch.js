@@ -1,341 +1,351 @@
-//Luca DalCanto | November 2022 | Calculator Project
-let leftNums = new Array(10);
-let rightNums = new Array(10);
-let operators = new Array(7);
-let leftAdjusts = new Array(5);
-let rightAdjusts = new Array(5);
-let font;
-let dR, dL, dRes;
-let l, r, result;
-let operator = " ";
-let left = true;
-function setup() {
-    createCanvas(800, 660);
-    leftNums[0] = new NumButton(220, 380, 80, -60, "0");
-    leftNums[1] = new NumButton(160, 360, 80, 60, "1");
-    leftNums[2] = new NumButton(220, 300, 80, -60, "2");
-    leftNums[3] = new NumButton(280, 360, 80, 60, "3");
-    leftNums[4] = new NumButton(160, 220, 80, -60, "4");
-    leftNums[5] = new NumButton(220, 280, 80, 60, "5");
-    leftNums[6] = new NumButton(280, 220, 80, -60, "6");
-    leftNums[7] = new NumButton(160, 200, 80, 60, "7");
-    leftNums[8] = new NumButton(220, 140, 80, -60, "8");
-    leftNums[9] = new NumButton(280, 200, 80, 60, "9");
-    rightNums[0] = new NumButton(580, 380, 80, -60, "0");
-    rightNums[1] = new NumButton(520, 360, 80, 60, "1");
-    rightNums[2] = new NumButton(580, 300, 80, -60, "2");
-    rightNums[3] = new NumButton(640, 360, 80, 60, "3");
-    rightNums[4] = new NumButton(520, 220, 80, -60, "4");
-    rightNums[5] = new NumButton(580, 280, 80, 60, "5");
-    rightNums[6] = new NumButton(640, 220, 80, -60, "6");
-    rightNums[7] = new NumButton(520, 200, 80, 60, "7");
-    rightNums[8] = new NumButton(580, 140, 80, -60, "8");
-    rightNums[9] = new NumButton(640, 200, 80, 60, "9");
-    operators[0] = new Button(400, 160, 80, 80, "+", 35);
-    operators[1] = new Button(400, 240, 80, 80, "-", 35);
-    operators[2] = new Button(400, 320, 80, 80, "*", 35);
-    operators[3] = new Button(400, 400, 80, 80, "÷", 35);
-    operators[4] = new Button(400, 480, 80, 80, "l", 15);
-    operators[5] = new Button(450, 440, 60, 60, "x", 20);
-    operators[6] = new Button(350, 440, 60, 60, "!", 20);
-    leftAdjusts[0] = new Button(70, 210, 60, 60, "e", 30);
-    leftAdjusts[1] = new Button(70, 290, 100, 100, "±", 30);
-    leftAdjusts[2] = new Button(70, 370, 60, 60, ".", 30);
-    leftAdjusts[3] = new Button(110, 450, 100, 100, "C", 30);
-    leftAdjusts[4] = new Button(90, 590, 60, 60, "↑", 35);
-    rightAdjusts[0] = new Button(730, 210, 60, 60, "e", 30);
-    rightAdjusts[1] = new Button(730, 290, 100, 100, "±", 30);
-    rightAdjusts[2] = new Button(730, 370, 60, 60, ".", 30);
-    rightAdjusts[3] = new Button(690, 450, 100, 100, "C", 30);
-    rightAdjusts[4] = new Button(710, 590, 60, 60, "↑", 35);
-    dL = "0";
-    dR = "0";
-    dRes = "0";
-}
-function preload() {
-    font = "Krungthep";
-}
-function draw() {
-    background("#02003E");
-    fill("#00475A");
-    strokeWeight(0);
-    rect(400, 0, 400, 660); //designs:
-    stroke(210);
-    strokeWeight(4);
-    line(400, 0, 400, 660);
-    line(0, 0, 40, 40);
-    line(0, 160, 40, 120);
-    line(400, 0, 360, 40);
-    line(400, 160, 360, 120);
-    line(400, 0, 440, 40);
-    line(400, 160, 440, 120);
-    line(760, 40, 800, 0);
-    line(760, 120, 800, 160); //buttons:
-    for (let i = 0; i < leftNums.length; i++) {
-        leftNums[i].display();
-        leftNums[i].hover(mouseX, mouseY);
+// Connor Soelberg | 31 Oct 2022 | Calculator
+
+class Button {
+  // Member Variables
+  constructor(x, y, w, h, val) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+    this.val = val;
+    this.c1 = color('#F08100');
+    this.c2 = color('#F8A411');
+    this.on = false;
+  }
+
+  display() {
+    if (this.on === true) {
+      fill(this.c2);
+    } else {
+      fill(this.c1);
     }
-    for (let i = 0; i < operators.length; i++) {
-        operators[i].hover(mouseX, mouseY);
-        operators[i].display(operator);
-    }
-    for (let i = 0; i < rightNums.length; i++) {
-        rightNums[i].display();
-        if (operator != "!") {
-            rightNums[i].hover(mouseX, mouseY);
-        }
-    }
-    for (let i = 0; i < rightAdjusts.length; i++) {
-        rightAdjusts[i].display(" ");
-        if (operator != "!") {
-            rightAdjusts[i].hover(mouseX, mouseY);
-        }
-    }
-    for (let i = 0; i < leftAdjusts.length; i++) {
-        leftAdjusts[i].display(" ");
-        leftAdjusts[i].hover(mouseX, mouseY);
-    }
-    if (operator == "!") {
-        fill("#484848", 200);
-        strokeWeight(0);
-        rect(402, 0, 400, 660);
-        strokeWeight(4);
-    }
-    for (let i = 0; i < operators.length; i++) {
-        operators[i].hover(mouseX, mouseY);
-        operators[i].display(operator);
-    }
-    updateDisplays();
-}
-function updateDisplays() {
-    fill(210);
-    rect(40, 40, 320, 80);
-    rect(440, 40, 320, 80);
-    rect(150, 550, 500, 80);
+    rect(this.x, this.y, this.w, this.h);
     fill(0);
-    textAlign(CENTER, CENTER);
-    textFont(font);
-    text("x", 50, 50);
-    text("y", 450, 50);
-    text("=", 170, 588); //show values:
-    if (dL.length() < 9) {
-        textSize(50);
-    } else {
-        textSize(66 - 2.4 * dL.length());
-    }
-    text(dL, 200, 80);
-    if (dR.length() < 9) {
-        textSize(50);
-    } else {
-        textSize(66 - 2.4 * dR.length());
-    }
-    text(dR, 600, 80);
     textSize(50);
-    text(dRes, 400, 590);
+    textAlign(CENTER);
+    fill('#042F61');
+    if (this.w === 60 && this.val !== '2' && this.val !== '√') {
+      textSize(50);
+      if (this.h === 40) {
+        text(this.val, this.x+30, this.y+37);
+      } else {
+        text(this.val, this.x+30.5, this.y+47);
+      }
+    } else if (this.w === 40 && this.val !== '√' && this.val !== '2') {
+      textSize(33.3);
+      text(this.val, this.x+21, this.y+31);
+    } else if (this.val !== '√' && this.val !== '2') {
+      textSize(30);
+      text(this.val, this.x+10.5, this.y+28);
+    }
+    if (this.val === '√') {
+      textSize(33.3);
+      text("√ X", (this.x+30), (this.y+32));
+    }
+    if (this.val === '2' && this.w === 20) {
+      textSize(30);
+      text('²', (this.x+11), (this.y+28));
+    }
+    if (this.val === '2' && this.w === 60) {
+      textSize(50);
+      text("2", this.x+30.5, this.y+47);
+    }
+  }
+
+  hover(mx, my) {
+    this.on = (mx > this.x && mx < this.x+this.w && my > this.y && my < this.y+this.h);
+  }
 }
+
+let numButtons = [];
+let opButtons = [];
+let dVal = "0";
+let left = true;
+let l, r, result;
+let op = ' ';
+
+function setup() {
+  createCanvas(340, 500);
+  background('#0F3561');
+  numButtons[0] = new Button(100, 360, 60, 60, '0');
+  numButtons[1] = new Button(20, 120, 60, 60, '1');
+  numButtons[2] = new Button(100, 120, 60, 60, '2');
+  numButtons[3] = new Button(180, 120, 60, 60, '3');
+  numButtons[4] = new Button(20, 200, 60, 60, '4');
+  numButtons[5] = new Button(100, 200, 60, 60, '5');
+  numButtons[6] = new Button(180, 200, 60, 60, '6');
+  numButtons[7] = new Button(20, 280, 60, 60, '7');
+  numButtons[8] = new Button(100, 280, 60, 60, '8');
+  numButtons[9] = new Button(180, 280, 60, 60, '9');
+  opButtons[0] = new Button(300, 120, 20, 20, '2');
+  opButtons[1] = new Button(260, 140, 40, 40, 'X');
+  opButtons[2] = new Button(260, 200, 60, 40, '÷');
+  opButtons[3] = new Button(260, 260, 60, 40, '−');
+  opButtons[4] = new Button(260, 320, 60, 40, '×');
+  opButtons[5] = new Button(260, 380, 60, 40, '+');
+  opButtons[6] = new Button(260, 440, 60, 40, '=');
+  opButtons[7] = new Button(20, 360, 60, 40, '√');
+  opButtons[8] = new Button(180, 360, 60, 40, '.');
+  opButtons[9] = new Button(20, 420, 60, 60, 'C');
+  opButtons[10] = new Button(100, 440, 60, 40, '±');
+  opButtons[11] = new Button(180, 420, 60, 60, '%');
+}
+
+function draw() {
+  noStroke();
+  fill('#20615A');
+  rect(0, 0, 340, 500, 45, 45, 45, 45);
+  stroke('#0F3561');
+  line(0, 100, 340, 100);
+  for (let button of numButtons) {
+    button.display();
+    button.hover(mouseX, mouseY);
+  }
+  for (let button of opButtons) {
+    button.display();
+    button.hover(mouseX, mouseY);
+  }
+  updateDisplay();
+}
+
 function keyPressed() {
-    console.log("key:" + key);
-    console.log("keyCode:" + keyCode);
-    if (keyCode == 107 || keyCode == 61) {
-        doMath("+");
-        left = false;
-    } else if (keyCode == 109 || keyCode == 45) {
-        doMath("-");
-        left = false;
-    } else if (keyCode == 106 || keyCode == 88) {
-        doMath("*");
-        left = false;
-    } else if (keyCode == 47 || keyCode == 111) {
-        doMath("÷");
-        left = false;
-    } else if (keyCode == 27 || keyCode == 12) {
-        handleLeftEvent("C", false);
-        handleRightEvent("C", false);
-        left = true;
-    } else if (keyCode == 10) {
-        handleLeftEvent("↑", false);
-        left = false;
-    } else if (left) {
-        //if should work on left
-        if (keyCode == 48 || keyCode == 96) {
-            handleLeftEvent("0", true);
-        } else if (keyCode == 49 || keyCode == 97) {
-            handleLeftEvent("1", true);
-        } else if (keyCode == 50 || keyCode == 98) {
-            handleLeftEvent("2", true);
-        } else if (keyCode == 51 || keyCode == 99) {
-            handleLeftEvent("3", true);
-        } else if (keyCode == 52 || keyCode == 100) {
-            handleLeftEvent("4", true);
-        } else if (keyCode == 53 || keyCode == 101) {
-            handleLeftEvent("5", true);
-        } else if (keyCode == 54 || keyCode == 102) {
-            handleLeftEvent("6", true);
-        } else if (keyCode == 55 || keyCode == 103) {
-            handleLeftEvent("7", true);
-        } else if (keyCode == 56 || keyCode == 104) {
-            handleLeftEvent("8", true);
-        } else if (keyCode == 57 || keyCode == 105) {
-            handleLeftEvent("9", true);
-        } else if (keyCode == 69) {
-            handleLeftEvent("e", false);
-        } else if (keyCode == 46 || keyCode == 110) {
-            handleLeftEvent(".", false);
-        }
-    } else if (!left) {
-        //if should work on left
-        if (keyCode == 48 || keyCode == 96) {
-            handleRightEvent("0", true);
-        } else if (keyCode == 49 || keyCode == 97) {
-            handleRightEvent("1", true);
-        } else if (keyCode == 50 || keyCode == 98) {
-            handleRightEvent("2", true);
-        } else if (keyCode == 51 || keyCode == 99) {
-            handleRightEvent("3", true);
-        } else if (keyCode == 52 || keyCode == 100) {
-            handleRightEvent("4", true);
-        } else if (keyCode == 53 || keyCode == 101) {
-            handleRightEvent("5", true);
-        } else if (keyCode == 54 || keyCode == 102) {
-            handleRightEvent("6", true);
-        } else if (keyCode == 55 || keyCode == 103) {
-            handleRightEvent("7", true);
-        } else if (keyCode == 56 || keyCode == 104) {
-            handleRightEvent("8", true);
-        } else if (keyCode == 57 || keyCode == 105) {
-            handleRightEvent("9", true);
-        } else if (keyCode == 69) {
-            handleRightEvent("e", false);
-        } else if (keyCode == 46 || keyCode == 110) {
-            handleRightEvent(".", false);
-        }
-    }
+  if (keyCode == 49 || keyCode == 97) {
+    handleEvent("1", true);
+  } else if (keyCode == 50 || keyCode == 98) {
+    handleEvent("2", true);
+  } else if (keyCode == 51 || keyCode == 99) {
+    handleEvent("3", true);
+  } else if (keyCode == 52 || keyCode == 100) {
+    handleEvent("4", true);
+  } else if (keyCode == 53 || keyCode == 101) {
+    handleEvent("5", true);
+  } else if (keyCode == 54 || keyCode == 102) {
+    handleEvent("6", true);
+  } else if (keyCode == 55 || keyCode == 103) {
+    handleEvent("7", true);
+  } else if (keyCode == 56 || keyCode == 104) {
+    handleEvent("8", true);
+  } else if (keyCode == 57 || keyCode == 105) {
+    handleEvent("9", true);
+  } else if (keyCode == 48 || keyCode == 96) {
+    handleEvent("0", true);
+  } else if (keyCode == 67 || keyCode == 8) {
+    handleEvent("C", false);
+  } else if (keyCode == 46 || keyCode == 110) {
+    handleEvent(".", false);
+  } else if (keyCode == 32) {
+    handleEvent("±", false);
+  } else if (keyCode == 107) {
+    handleEvent("+", false);
+  } else if (keyCode == 45 || keyCode == 109) {
+    handleEvent("-", false);
+  } else if (keyCode == 106) {
+    handleEvent("×", false);
+  } else if (keyCode == 47 || keyCode == 111) {
+    handleEvent("÷", false);
+  } else if (keyCode == 10 || keyCode == 61) {
+    handleEvent("=", false);
+  } else if (keyCode == 82) {
+    handleEvent("sqrt", false);
+  } else if (keyCode == 80) {
+    handleEvent("%", false);
+  } else if (keyCode == 69) {
+    handleEvent("exp", false);
+  } else if (keyCode == 88) {
+    handleEvent("X", false);
+  }
+
+  if (keyPressed === true && opButtons[0].on || opButtons[1].on || opButtons[2].on || opButtons[3].on || opButtons[4].on || opButtons[5].on || opButtons[7].on) {
+    strokeWeight(2);
+  }
+  if (keyPressed === true && opButtons[6].on || opButtons[9].on) {
+    strokeWeight(1);
+  }
 }
-function handleLeftEvent(val, num) {
-    if (num && dL.length() < 15) {
-        if (dL.equals("0") || dL.equals("e")) {
-            dL = str(val);
-        } else {
-            dL += str(val);
-        }
-        l = float(dL);
+
+function handleEvent(val, num) {
+  if (num && dVal.length < 21) {
+    if (dVal === "0") {
+      dVal = val;
     } else {
-        if (val == "C") {
-            console.log("CLEAR");
-            dL = "0";
-            l = 0.0;
-        } else if (val == "±") {
-            if (!dL.contains("-")) {
-                dL = "-" + dL;
-            } else {
-                dL = dL.replace("-", "");
-            }
-            l = float(dL);
-        } else if (val == "↑") {
-            dL = str(result);
-            l = result;
-        } else if (val == "e") {
-            l = 2.718281;
-            dL = "e";
-        } else if (val == "." && !dL.contains(".")) {
-            dL += ".";
-        }
+      dVal += val;
     }
-    doMath(operator);
-}
-function handleRightEvent(val, num) {
-    if (num && dR.length() < 15) {
-        if (dR.equals("0") || dR.equals("e")) {
-            dR = str(val);
-        } else {
-            dR += str(val);
-        }
-        r = float(dR);
+    if (left) {
+      l = parseFloat(dVal);
     } else {
-        if (val == "C") {
-            dR = "0";
-            r = 0.0;
-        } else if (val == "±") {
-            if (!dR.contains("-")) {
-                dR = "-" + dR;
-            } else {
-                dR = dR.replace("-", "");
-            }
-            r = float(dR);
-        } else if (val == "↑") {
-            dR = str(result);
-            r = result;
-        } else if (val == "e") {
-            r = 2.718281;
-            dR = "e";
-        } else if (val == "." && !dR.contains(".")) {
-            dR += ".";
-        }
+      r = parseFloat(dVal);
     }
-    doMath(operator);
-}
-function doMath(op) {
-    operator = op; //do math:
-    if (op == "+") {
-        result = l + r;
-    } else if (op == "-") {
-        result = l - r;
-    } else if (op == "÷") {
-        result = l / r;
-    } else if (op == "*") {
-        result = l * r;
-    } else if (op == "x") {
-        result = pow(l, r);
-    } else if (op == "!") {
-        if (l >= 0) {
-            result = 1;
-            for (let i = 2; i <= l; i++) {
-                result *= i;
-                if (result >= 300000000000000000000000000000000000000.0) {
-                    break;
-                }
-            }
-        }
-    } else if (op == "l") {
-        result = log(r) / log(l);
+    if (parseFloat(dVal) === parseInt(dVal)) {
+      dVal = str(parseInt(dVal));
     }
-    if ((op == "÷" && r == 0.0) || (op == "!" && (int(l) != l || l < 0))) {
-        dRes = "DNE";
-    } else if (result >= 300000000000000000000000000000000000000.0) {
-        result = 300000000000000000000000000000000000000.0;
-        dRes = "ERR-TOO LARGE";
-    } else if (result <= -300000000000000000000000000000000000000.0) {
-        result = -300000000000000000000000000000000000000.0;
-        dRes = "ERR-TOO SMALL";
+  } else if (val === "C") {
+    dVal = "0";
+    left = true;
+    l = 0.0;
+    r = 0.0;
+    result = 0.0;
+    op = ' ';
+    if (parseFloat(dVal) === parseInt(dVal)) {
+      dVal = str(parseInt(dVal));
+    }
+  } else if (val === ".") {
+    if (!dVal.includes(".")) {
+      dVal += ".";
+    }
+  } else if (val === "±") {
+    if (left) {
+      l *= -1;
+      dVal = str(l);
     } else {
-        dRes = nf(result);
+      r *= -1;
+      dVal = str(r);
     }
+    if (parseFloat(dVal) === parseInt(dVal)) {
+      dVal = str(parseInt(dVal));
+    }
+  } else if (val === "+") {
+    op = '+';
+    dVal = "0";
+    left = false;
+  } else if (val === "×") {
+    op = '×';
+    dVal = "0";
+    left = false;
+  } else if (val === "-") {
+    op = '−';
+    dVal = "0";
+    left = false;
+  } else if (val === "÷") {
+    op = '÷';
+    dVal = "0";
+    left = false;
+  } else if (val === "=") {
+    performCalculation();
+  } else if (val === "sqrt") {
+    l = sqrt(l);
+    dVal = str(l);
+    if (parseFloat(dVal) === parseInt(dVal)) {
+      dVal = str(parseInt(dVal));
+    }
+  } else if (val === "%") {
+    if (left) {
+      l /= 100;
+      dVal = str(l);
+    } else {
+      r /= 100;
+      dVal = str(r);
+    }
+    if (parseFloat(dVal) === parseInt(dVal)) {
+      dVal = str(parseInt(dVal));
+    }
+  } else if (val === "exp") {
+    dVal = "Inpt Exp";
+    op = 'e';
+    left = false;
+  } else if (val === "X") {
+  }
 }
+
 function mouseReleased() {
-    for (let i = 0; i < leftNums.length; i++) {
-        if (leftNums[i].on) {
-            handleLeftEvent(leftNums[i].val, true);
-        }
+  for (let button of numButtons) {
+    if (button.on) {
+      handleEvent(str(button.val), true);
     }
-    for (let i = 0; i < rightNums.length; i++) {
-        if (rightNums[i].on) {
-            handleRightEvent(rightNums[i].val, true);
-        }
+  }
+
+  for (let button of opButtons) {
+    if (button.on && button.val === 'C') {
+      handleEvent(str(button.val), false);
+    } else if (button.on && button.val === '+') {
+      handleEvent("+", false);
+    } else if (button.on && button.val === '×') {
+      handleEvent("×", false);
+    } else if (button.on && button.val === '−') {
+      handleEvent("-", false);
+    } else if (button.on && button.val === '÷') {
+      handleEvent("÷", false);
+    } else if (button.on && button.val === '=') {
+      handleEvent("=", false);
+    } else if (button.on && button.val === '.') {
+      handleEvent(".", false);
+    } else if (button.on && button.val === '%') {
+      handleEvent("%", false);
+    } else if (button.on && button.val === '2') {
+      handleEvent("exp", false);
+    } else if (button.on && button.val === 'X') {
+      handleEvent("X", false);
+    } else if (button.on && button.val === '√') {
+      handleEvent("sqrt", false);
+    } else if (button.on && button.val === '±') {
+      handleEvent("±", false);
     }
-    for (let i = 0; i < operators.length; i++) {
-        if (operators[i].on) {
-            doMath(operators[i].val);
-            left = false;
-        }
-    }
-    for (let i = 0; i < leftAdjusts.length; i++) {
-        if (leftAdjusts[i].on) {
-            handleLeftEvent(leftAdjusts[i].val, false);
-        }
-    }
-    for (let i = 0; i < rightAdjusts.length; i++) {
-        if (rightAdjusts[i].on) {
-            handleRightEvent(rightAdjusts[i].val, false);
-        }
-    }
+  }
+  console.log("l: " + l + " r: " + r + " op: " + op + " result: " + result);
+  if (mousePressed === true && opButtons[0].on || opButtons[2].on || opButtons[3].on || opButtons[4].on || opButtons[5].on || opButtons[7].on) {
+    strokeWeight(2);
+  }
+  if (mousePressed === true && opButtons[6].on || opButtons[9].on) {
+    strokeWeight(1);
+  }
+}
+
+function updateDisplay() {
+  noStroke();
+  fill(100);
+  rect(20, 20, 300, 60, 45, 45, 45, 45);
+  fill('#042F61');
+  textAlign(RIGHT);
+  if (dVal === "NaN") {
+    dVal = "Error";
+  }
+  if (dVal === "Infinity") {
+    dVal = "Out of Bounds";
+  } else if (dVal === "-Infinity") {
+    dVal = "Out of Bounds";
+  }
+  if (dVal.length < 12) {
+    textSize(50);
+  } else if (dVal.length < 13) {
+    textSize(46);
+  } else if (dVal.length < 14) {
+    textSize(42);
+  } else if (dVal.length < 15) {
+    textSize(40);
+  } else if (dVal.length < 16) {
+    textSize(37);
+  } else if (dVal.length < 17) {
+    textSize(35);
+  } else if (dVal.length < 18) {
+    textSize(33);
+  } else if (dVal.length < 19) {
+    textSize(31);
+  } else if (dVal.length < 20) {
+    textSize(29);
+  } else {
+    textSize(27);
+  }
+  text(dVal, width-30, 67.5);
+}
+
+function performCalculation() {
+  if (op === '+') {
+    result = l + r;
+  } else if (op === '−') {
+    result = l - r;
+  } else if (op === '×') {
+    result = l * r;
+  } else if (op === '÷') {
+    result = l / r;
+  } else if (op === 'e') {
+    pow(l, r);
+  }
+  dVal = str(result);
+  l = result;
+  left = true;
+  if (dVal === "0.0") {
+    dVal === "0";
+  }
+  if (parseFloat(dVal) === parseInt(dVal)) {
+    dVal = str(parseInt(dVal));
+  }
 }
